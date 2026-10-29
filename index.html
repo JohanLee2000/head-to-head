@@ -19,6 +19,7 @@
 <body>
   <header class="top">
     <h1 class="brand"><span>Head</span> to <b>Head</b></h1>
+    <span class="sync-pill" id="syncPill" role="status" hidden></span>
     <button class="icon-btn" id="settingsBtn" aria-label="Settings">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
     </button>
@@ -101,9 +102,31 @@
         </label>
       </div>
 
+      <div class="field sync-box">
+        <span>Live sync</span>
+        <div id="syncOff">
+          <p class="hint">Share one rivalry between both your phones. Scores update live and still work offline.</p>
+          <button class="btn primary" type="button" id="createRoomBtn">Start a shared rivalry</button>
+          <p class="hint or">or join your friend’s</p>
+          <div class="join-row">
+            <input type="text" id="joinInput" placeholder="ABCDE-23456" maxlength="11" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Rivalry code">
+            <button class="btn" type="button" id="joinBtn">Join</button>
+          </div>
+        </div>
+        <div id="syncOn" hidden>
+          <p class="hint">This phone is synced. Your friend can join with this code:</p>
+          <div class="room-code" id="roomCode"></div>
+          <div class="btn-row">
+            <button class="btn primary" type="button" id="shareRoomBtn">Share invite link</button>
+            <button class="btn" type="button" id="leaveRoomBtn">Stop syncing</button>
+          </div>
+        </div>
+        <p class="hint" id="syncUnavailable" hidden>Live sync isn’t set up yet. Add your Firebase config to <code>firebase-config.js</code>.</p>
+      </div>
+
       <div class="field">
-        <span>Backup &amp; sync</span>
-        <p class="hint">Scores are saved on this device. Export a backup to move them to another phone, then import it there.</p>
+        <span>Backup</span>
+        <p class="hint">Download all trackers as a file, or restore them from one.</p>
         <div class="btn-row">
           <button class="btn" type="button" id="exportBtn">Export backup</button>
           <label class="btn" for="importInput">Import backup</label>
@@ -128,6 +151,7 @@
     <button type="button" id="toastUndo">Undo</button>
   </div>
 
+  <script src="firebase-config.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

@@ -1,0 +1,16 @@
+rules_version = '2';
+
+// Each rivalry lives at rooms/{code}. The 10-character code is the only key:
+// rooms can't be listed, so nobody can find a rivalry without its code.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /rooms/{room} {
+      allow get, create, update: if room.size() == 10;
+      allow list, delete: if false;
+
+      match /trackers/{tracker} {
+        allow read, write: if room.size() == 10;
+      }
+    }
+  }
+}

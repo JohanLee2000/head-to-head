@@ -20,8 +20,18 @@ for example GitHub Pages, Netlify Drop or Cloudflare Pages. Then:
 
 ## Data
 
-Scores live in each device's local storage. To move them between phones, use
-Settings → Export backup, then Import backup on the other device.
+Without live sync, scores live in each device's local storage. Settings → Export / Import backup moves them by hand.
+
+## Live sync (Firebase)
+
+1. Create a project at https://console.firebase.google.com (Google Analytics not needed).
+2. **Build → Firestore Database → Create database**, pick a location near you, start in **production mode**.
+3. In Firestore's **Rules** tab, paste the contents of [`firestore.rules`](firestore.rules) and **Publish**.
+4. **Project settings → Your apps → Web (`</>`)**, register an app, and copy the `firebaseConfig` object
+   into [`firebase-config.js`](firebase-config.js) as `window.H2H_FIREBASE_CONFIG = { ... };`.
+
+Then in the app: Settings → **Start a shared rivalry** on one phone, **Share invite link** to the other.
+Changes sync live, and offline changes are queued and sent once back online.
 
 ## Updating
 
