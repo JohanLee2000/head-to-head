@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Keep score on everything you and your favourite person compete on.">
+  <meta name="theme-color" content="#f7f4ef" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#141317" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Head to Head">
+  <title>Head to Head</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <h1 class="brand"><span>Head</span> to <b>Head</b></h1>
+    <button class="icon-btn" id="settingsBtn" aria-label="Settings">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </button>
+  </header>
+
+  <main class="wrap">
+    <section class="scoreboard" id="scoreboard" aria-live="polite"></section>
+
+    <div class="list-head">
+      <h2>Trackers</h2>
+      <span id="trackerCount"></span>
+    </div>
+
+    <section class="trackers" id="trackers"></section>
+
+    <div class="empty" id="empty" hidden>
+      <div class="empty-art" aria-hidden="true">🤝</div>
+      <h3>Nothing tracked yet</h3>
+      <p>Add anything you two compete on: games, arguments won, who makes the coffee.</p>
+      <button class="btn" id="emptyNamesBtn" type="button">Set your names</button>
+    </div>
+  </main>
+
+  <button class="fab" id="addBtn" type="button">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+    New tracker
+  </button>
+
+  <!-- Add / edit tracker -->
+  <dialog id="trackerDialog">
+    <form class="sheet" id="trackerForm" method="dialog">
+      <h2 id="trackerDialogTitle">New tracker</h2>
+
+      <label class="field">
+        <span>What are you tracking?</span>
+        <input type="text" name="name" maxlength="40" required placeholder="e.g. Mario Kart wins" autocomplete="off">
+      </label>
+
+      <div class="field">
+        <span>Icon</span>
+        <div class="emoji-grid" id="emojiGrid"></div>
+      </div>
+
+      <div class="row">
+        <label class="field">
+          <span id="score0Label">Player 1</span>
+          <input type="number" name="score0" min="0" step="1" inputmode="numeric" value="0">
+        </label>
+        <label class="field">
+          <span id="score1Label">Player 2</span>
+          <input type="number" name="score1" min="0" step="1" inputmode="numeric" value="0">
+        </label>
+      </div>
+
+      <div class="danger-zone" id="trackerDanger">
+        <button class="btn" type="button" id="resetTrackerBtn">Reset to 0–0</button>
+        <button class="btn danger" type="button" id="deleteTrackerBtn">Delete tracker</button>
+      </div>
+
+      <div class="actions">
+        <button class="btn" type="button" data-close>Cancel</button>
+        <button class="btn primary" type="submit">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Settings -->
+  <dialog id="settingsDialog">
+    <form class="sheet" id="settingsForm" method="dialog">
+      <h2>Settings</h2>
+
+      <div class="row">
+        <label class="field">
+          <span class="dot p0">Player 1</span>
+          <input type="text" name="p0" maxlength="24" required autocomplete="off">
+        </label>
+        <label class="field">
+          <span class="dot p1">Player 2</span>
+          <input type="text" name="p1" maxlength="24" required autocomplete="off">
+        </label>
+      </div>
+
+      <div class="field">
+        <span>Backup &amp; sync</span>
+        <p class="hint">Scores are saved on this device. Export a backup to move them to another phone, then import it there.</p>
+        <div class="btn-row">
+          <button class="btn" type="button" id="exportBtn">Export backup</button>
+          <label class="btn" for="importInput">Import backup</label>
+          <input type="file" id="importInput" accept="application/json,.json" hidden>
+        </div>
+      </div>
+
+      <div class="danger-zone">
+        <button class="btn" type="button" id="resetAllBtn">Reset all scores</button>
+        <button class="btn danger" type="button" id="deleteAllBtn">Delete all trackers</button>
+      </div>
+
+      <div class="actions">
+        <button class="btn" type="button" data-close>Cancel</button>
+        <button class="btn primary" type="submit">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status">
+    <span id="toastMsg"></span>
+    <button type="button" id="toastUndo">Undo</button>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
