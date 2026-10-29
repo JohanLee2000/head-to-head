@@ -1,5 +1,5 @@
 // Bump this when you change any app file so installed copies pick up the update.
-const CACHE = 'h2h-v2';
+const CACHE = 'h2h-v3';
 
 const ASSETS = [
   './',
@@ -9,7 +9,7 @@ const ASSETS = [
   './sync.js',
   './firebase-config.js',
   './manifest.webmanifest',
-  './icons/icon.svg',
+  './icons/favicon-64.png',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/icon-maskable-512.png',
