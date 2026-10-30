@@ -1,5 +1,5 @@
 // Bump this when you change any app file so installed copies pick up the update.
-const CACHE = 'h2h-v7';
+const CACHE = 'h2h-v8';
 
 const ASSETS = [
   './',
